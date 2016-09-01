@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.exercise.servlet1</groupId>
+    <artifactId>infra</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.exercise.servlet1.infra</groupId>
+  <artifactId>persistence</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <build>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-resources-plugin</artifactId>
+              <configuration>
+                  <resources>
+                      <resource>
+                          <directory>src/main/resources</directory>
+                          <filtering>true</filtering>
+                      </resource>
+                  </resources>
+              </configuration>
+          </plugin>
+      </plugins>
+  </build>
+
+  <profiles>
+      <profile>
+          <id>production</id>
+          <properties>
+              <db.driver_class>org.postgresql.Driver</db.driver_class>
+              <db.url>jdbc:postgresql://localhost/hibernatetwo</db.url>
+              <db.username>arjay</db.username>
+              <db.password>shinge24</db.password>
+              <db.dialect>org.hibernate.dialect.PostgreSQLDialect</db.dialect>
+              <db.show_sql>false</db.show_sql>
+              <db.use_second_level_cache>false</db.use_second_level_cache>
+              <db.use_query_cache>false</db.use_query_cache>
+              <db.provider_class>org.hibernate.cache.EhCacheProvider</db.provider_class>
+              <db.region.factory_class>org.hibernate.cache.ehcache.EhCacheRegionFactory</db.region.factory_class>
+              <db.ehcache.configurationResourceName>/com/exercise/servlet1/infra/ehcache.xml</db.ehcache.configurationResourceName>
+          </properties>
+      </profile>
+      <profile>
+          <id>development</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
+          <properties>
+              <db.driver_class>org.postgresql.Driver</db.driver_class>
+              <db.url>jdbc:postgresql://localhost/hibernatetwo</db.url>
+              <db.username>postgres</db.username>
+              <db.password>postgres</db.password>
+              <db.dialect>org.hibernate.dialect.PostgreSQLDialect</db.dialect>
+              <db.show_sql>true</db.show_sql>
+              <db.use_second_level_cache>true</db.use_second_level_cache>
+              <db.use_query_cache>true</db.use_query_cache>
+              <db.provider_class>org.hibernate.cache.EhCacheProvider</db.provider_class>
+              <db.region.factory_class>org.hibernate.cache.ehcache.EhCacheRegionFactory</db.region.factory_class>
+              <db.ehcache.configurationResourceName>/com/exercise/servlet1/infra/ehcache.xml</db.ehcache.configurationResourceName>
+          </properties>
+      </profile>
+  </profiles>
+
+  <dependencies>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-ehcache</artifactId>
+		<version>4.3.7.Final</version>
+	</dependency>
+  </dependencies>
+</project>

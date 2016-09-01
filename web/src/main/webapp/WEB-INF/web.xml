@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" metadata-complete="false" version="3.1">
+  <display-name>servletOne</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <display-name>MainPage</display-name>
+    <servlet-name>MainPage</servlet-name>
+    <servlet-class>com.exercise.servlet1.MainPage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MainPage</servlet-name>
+    <url-pattern>/MainPage/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>PersonOptions</display-name>
+    <servlet-name>PersonOptions</servlet-name>
+    <servlet-class>com.exercise.servlet1.PersonOptions</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PersonOptions</servlet-name>
+    <url-pattern>/PersonOptions/*</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <display-name>ListRoles</display-name>
+    <servlet-name>ListRoles</servlet-name>
+    <servlet-class>com.exercise.servlet1.ListRoles</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListRoles</servlet-name>
+    <url-pattern>/ListRoles/*</url-pattern>
+  </servlet-mapping>
+</web-app>
