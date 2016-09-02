@@ -23,12 +23,22 @@
     <url-pattern>/PersonOptions/*</url-pattern>
   </servlet-mapping>
    <servlet>
-    <display-name>ListRoles</display-name>
-    <servlet-name>ListRoles</servlet-name>
-    <servlet-class>com.exercise.servlet1.ListRoles</servlet-class>
+    <display-name>ManageRoles</display-name>
+    <servlet-name>ManageRoles</servlet-name>
+    <servlet-class>com.exercise.servlet1.ManageRoles</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ListRoles</servlet-name>
-    <url-pattern>/ListRoles/*</url-pattern>
+    <servlet-name>ManageRoles</servlet-name>
+    <url-pattern>/ManageRoles/*</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <display-name>AddPerson</display-name>
+    <servlet-name>AddPerson</servlet-name>
+    <servlet-class>com.exercise.servlet1.AddPerson</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddPerson</servlet-name>
+    <url-pattern>/AddPerson/*</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

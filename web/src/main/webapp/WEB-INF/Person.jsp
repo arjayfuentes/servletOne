@@ -1,5 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.exercise.servlet1.core.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.util.*"%>
 
 <html>
 	<head>
@@ -8,230 +11,173 @@
 	<body>
 		<div>
 			<div class="row">
-				<c:forEach var = "err" items = "${errors}">
-					<div class="column column-6"><span style="color:red">${err}</span></div>
+				
+				<c:forEach var = "error" items = "${errors}">
+					<div class="column column-6"><span style="color:red">${error}</span></div>
 				</c:forEach>
-				<c:set var="person" value="${person}"/>
-				<form action="${pageContext.request.contextPath}/MainPage" method="post">
-				<input type="hidden" name="personId" value="${person.id}">
-				<fmt:formatDate pattern="MM/dd/yyyy" value="${person.birthDate}" var="birthDate"/>
-				<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateHired}" var="dateHired"/>
-
-				<div class="column column-8" align="center">
-					<fieldset style="padding:3%">
-						<legend>PERSON NAME:</legend>
-						<table>
-							<div>
-								<tr>
-									<td><span class="required">*</span></div>First Name:</td>
-									<td><input type="text" name="firstName" value="${person.firstName}"></td>
-								</tr>
-								<tr>
-									<td><span class="required">*</span></div>Middle Name:</td>
-									<td><input type="text" name="middleName" value="${person.middleName}"></td>
-								</tr>
-								<tr>
-									<td><span class="required">*</span></div>Last Name:</td>
-									<td><input type="text" name="lastName" value="${person.lastName}"></td>
-								</tr>
-								<tr>
-									<td>Suffix:</td>
-									<td><input type="text" name="suffix" value="${person.suffix}"></td>
-								</tr>
-								<tr>
-									<td>Title:</td>
-									<td><input type="text" name="title" value="${person.title}"></td>
-								</tr>
-							</div>
-						</table>
-					</fieldset>
-				</div>
-
-				<div class="column column-8" align="center">
+				
+				<form action="${pageContext.request.contextPath}/AddPerson" method="post">
+					<input type="hidden" name="personId" value="${person.id}">
+					<fmt:formatDate pattern="MM/dd/yyyy" value="${person.birthDate}" var="birthDate"/>
+					<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateHired}" var="dateHired"/>
+					<div class="column column-8">
+						<fieldset style="padding:3%">
+							<legend>PERSON NAME:</legend>
+							<table align="center">
+								<div>
+									<tr>
+										<td><span class="required">*</span></div>First Name:</td>
+										<td><input type="text" name="firstName" value="${person.firstName}"></td>
+									</tr>
+									<tr>
+										<td><span class="required">*</span></div>Middle Name:</td>
+										<td><input type="text" name="middleName" value="${person.middleName}"></td>
+									</tr>
+									<tr>
+										<td><span class="required">*</span></div>Last Name:</td>
+										<td><input type="text" name="lastName" value="${person.lastName}"></td>
+									</tr>
+									<tr>
+										<td>&nbsp;&nbsp;Suffix:</td>
+										<td><input type="text" name="suffix" value="${person.suffix}"></td>
+									</tr>
+									<tr>
+										<td>&nbsp;&nbsp;Title:</td>
+										<td><input type="text" name="title" value="${person.title}"></td>
+									</tr>
+								</div>
+							</table>
+						</fieldset>
+					</div>
+					<br>
+										
+					<div class="column column-8" >
 					<fieldset style="padding:3%">
 						<legend>OTHER INFO:</legend>
-						<table>
-							<div>
-								<tr>
-									<td><span class="required">*</span></div>GWA:</td>
-									<td><input type="text" name="gwa" value="${person.gwa}"></td>
-								</tr>
-								<tr>
-									<td><span class="required">*</span></div>Birthday</td>
-									<td><input type="text" name="birthday" value="${person.birthDate}" placeholder="12/30/1900"></td>
-								</tr>
-								<tr>
-									<td><span class="required">*</span>Employed:</td>
-									<td>
-										<input type="radio" name="employed" value="true" ${person.getEmployed() ? 'checked' : ''}> Yes
-										<input type="radio" name="employed" value="false" ${person.getEmployed() ? '' : 'checked'}> Not Employed
-									</td>
-								</tr>
-								<tr>
-									<td>Date Hired:</td>
-									<td>
-										<input type="text" name="dateHired" value="${dateHired}" placeholder="12/30/1900">
-										<span class="required">*(if employed)</span>
-									</td>
-								</tr>
-								<tr>
-									<td>Roles:</td>
-									<td>
-
-										<c:set var="devChecked" value=""/>
-										<c:set var="qaChecked" value=""/>
-										<c:set var="baChecked" value=""/>
-
-										<c:forEach var="role" items="${person.roles}">
-											<c:if test="${role.role_type.equals('Developer')}">
-												<c:set var="devChecked" value="checked"/>
+							<table align="center">
+								<div>
+									<tr>
+										<td><span class="required">*</span></div>GWA:</td>
+										<td><input type="text" name="gwa" value="${person.gwa}"></td>
+									</tr>
+									<tr>
+										<td><span class="required">*</span></div>Birthday</td>
+										<td><input type="date" name="birthday" value="${birthDate}" placeholder="12/30/1900"></td>
+									</tr>
+									<tr>
+										<td><span class="required">*</span>Employed:</td>
+										<td>
+											<input type="radio" name="employed" value="yes" ${person.getEmployed() ? 'checked' : ''}> Yes
+											<input type="radio" name="employed" value="no" ${person.getEmployed() ? '' : 'checked'}> Not Employed
+										</td>
+									</tr>
+									<tr>
+										<td>Date Hired:</td>
+										<td>
+											<fmt:formatDate value="${ojbect.date}" pattern="dd/MM/yyyy" />
+											<input type="date" name="dateHired" value="${dateHired}" placeholder="12/30/1900">
+											<span class="required">*(if employed)</span>
+										</td>
+									</tr>
+									<tr>
+										<td>Roles:</td>
+										<td>
+										<c:set var="roles" value="${roles}"/>
+										<c:set var="personRoles" value="${person.roles}"/>
+										<c:forEach var="role" items="${roles}">
+											<c:if test="${personRoles.contains(role)}">
+												<input type="checkbox" name="roleId" value="${role.id}" checked="checked"/>${role.roleName}<br/>
 											</c:if>
-											<c:if test="${role.role_type.equals('ba')}">
-												<c:set var="baChecked" value="checked"/>
-											</c:if>
-											<c:if test="${role.role_type.equals('qa')}">
-												<c:set var="qaChecked" value="checked"/>
+											<c:if test="${!personRoles.contains(role)}">
+												<input type="checkbox" name="roleId" value="${role.id}"/>${role.roleName}<br/>
 											</c:if>
 										</c:forEach>
-										<input type="checkbox" name="role" value="dev" ${devChecked}/>Developer:<br/>
-										<input type="checkbox" name="role" value="qa" ${qaChecked}/>Quality Assurance: 
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*(if employed)</span><br/>
-										<input type="checkbox" name="role" value="ba" ${baChecked}/>Business Analyst:
-									</td>
-								</tr>
-							</div>
-						</table>
-					</fieldset>
-				</div>
-
-				<div class="column column-8" align="center">
-					<fieldset style="padding:3%">
-						<legend>Address:</legend>
-						<table>
-							<div>
-								<tr>
-									<td><span class="required">*</span></div>House No.:></td>
-									<td><input type="text" name="streetNumber" value="${person.address.houseNo}"></td>
-								</tr>
-								<tr>
-									<td><span class="required">*</span></div>Street:</td>
-									<td><input type="text" name="street" value="${person.address.street}">
-									</td>
-								</tr>
-								<tr>
-									<td><span class="required">*</span></div>Barangay:</td>
-									<td><input type="text" name="barangay" value="${person.address.barangay}">
-									</td>
-								</tr>
-								<tr>
-									<td><span class="required">*</span></div>City:</td>
-									<td><input type="text" name="city" value="${person.address.city}"></td>
-								</tr>
-								<tr>
-									<td><span class="required">*</span></div>Zipcode:</td>
-									<td><input type="text" name="zipcode" value="${person.address.zipCode}"></td>
-								</tr>
-							</div>
-						</table>
-					</fieldset>
-				</div>
-
-
-				<div class="column column-8" align="center">
-					<fieldset style="padding:3%">
-						<legend>Contact:</legend>
-						<table>
-							<div>
-								<c:set var="emailChecked" value=""/>
-								<c:set var="mobileChecked" value=""/>
-								<c:set var="landlineChecked" value=""/>
-								<c:set var="emailValue" value=""/>
-								<c:set var="mobileValue" value=""/>
-								<c:set var="landlineValue" value=""/>
-								<c:set var="emailid" value=""/>
-								<c:set var="mobileid" value=""/>
-								<c:set var="landlineid" value=""/>
-
-								<c:forEach var="contact" items="${person.contacts}">
-
-									<c:if test="${contact.contactType=='EMAIL'}">
-										<c:set var="emailChecked" value="checked"/>
-										<c:set var="emailValue" value="${contact.contactValue}"/>
-										<c:set var="emailid" value="${contact.id}"/>
-									</c:if>
-									<c:if test="${contact.contactType=='MOBILE'}">
-										<c:set var="mobileChecked" value="checked"/>
-										<c:set var="mobileValue" value="${contact.contactValue}"/>
-										<c:set var="mobileid" value="${contact.id}"/>
-									</c:if>
-									<c:if test="${contact.contactType=='LANDLINE'}">
-										<c:set var="landlineChecked" value="checked"/>
-										<c:set var="landlineValue" value="${contact.contactValue}"/>
-										<c:set var="landlineid" value="${contact.id}"/>
-									</c:if>
-								</c:forEach>
-								<tr>
-									<td>
-										<input type="checkbox" onclick="document.getElementById('email').disabled=!this.checked;" name="contacts" value="email"  ${emailChecked}/>
-									</td>
-									<td>E-mail:</td>
-									<td>
-										<input type="hidden" name="emailId" value="${emailid}">
-										<input type="text" name="email" id = "email"  value="${emailValue}">
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<input type="checkbox" onclick="document.getElementById('mobile').disabled=!this.checked;" name="contacts" value="mobile" ${mobileChecked}/>
-									</td>
-									<td>Mobile:</td>
-									<td>
-										<input type="hidden" name="mobileId" value="${mobileid}">
-										<input type="text" name="mobile" id = "mobile" value="${mobileValue}" >
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<input type="checkbox" onclick="document.getElementById('landline').disabled=!this.checked;" name="contacts" value="landline" ${landlineChecked}/>
-									</td>
-									<td>
-										Landline:
-									</td>
-									<td>
-										<input type="hidden" name="landlineId" value="${landlineid}">
-										<input type="text" name="landline" id="landline" value="${landlineValue}" >
-									</td>
-								</tr>
-							</div>
-						</table>
-					</fieldset>
-				</div>
-				<div align = "center">
-					<c:choose>
-						<c:when test="${empty id}">
-							<input type="submit" value="add" align= "center"/>
-						</c:when>
-						<c:otherwise>
-							<input type="submit" value="save" align= "center"/>
-						</c:otherwise>
-					</c:choose>
-
-				</div>
+										</td>
+									</tr>
+								</div>
+							</table>
+						</fieldset>
+					</div>
+					<br>
+					
+					<div class="column column-8" align="center">
+						<fieldset style="padding:3%">
+							<legend>ADDRESS:</legend>
+							<table>
+								<div>
+									<tr>
+										<td><span class="required">*</span></div>House No:</td>
+										<td><input type="text" name="houseNo" value="${person.address.houseNo}"></td>
+									</tr>
+									<tr>
+										<td><span class="required">*</span></div>Street:</td>
+										<td><input type="text" name="street" value="${person.address.street}"></td>
+									</tr>
+									<tr>
+										<td><span class="required">*</span></div>Barangay:</td>
+										<td><input type="text" name="barangay" value="${person.address.barangay}"></td>
+									</tr>
+									<tr>
+										<td><span class="required">*</span></div>City:</td>
+										<td><input type="text" name="city" value="${person.address.city}"></td>
+									</tr>
+									<tr>
+										<td><span class="required">*</span></div>ZipCode:</td>
+										<td><input type="text" name="zipCode" value="${person.address.zipCode}"></td>
+									</tr>
+								</div>
+							</table>
+						</fieldset>
+					</div>
+					<br>
+					<div class="column column-6" align="center">
+						<fieldset style="padding:1%">
+						<legend>CONTACTS:</legend>
+							<table align="center">
+								<div>
+									<c:forEach var="contact" items="${person.contacts}">
+									<tr>
+										<td>${contact.contactType }</td>
+										<td>${contact.contactValue }</td>
+										<td>
+											<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions" method = "post">
+												<input type = "hidden" name = "id" value = "${person.id}">
+												<input type = "submit" value = "Delete"/>
+											</form>
+										</td>	
+									</tr>	
+									</c:forEach>
+								</div>
+							</table>
+						</fieldset>
+					</div>
+				    <div align = "center">
+						<c:choose>
+							<c:when test="${empty id}">
+								<input type="submit" value="add" align= "center"/>
+							</c:when>
+							<c:otherwise>
+								<input type="submit" value="save" align= "center"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				
 				</form>
+				
 				<div align = "center">
-				<form action="${pageContext.request.contextPath}/MainPage" method="get">
-				 <input type="submit" value="cancel" align= "center"/>
-				</form>
+					<form action="${pageContext.request.contextPath}/MainPage" method="get">
+					 <input type="submit" value="cancel" align= "center"/>
+					</form>
 				</div>
 
 			</div>
-
 		</div>
-
+		
 		<style>
 			.required{
 			color:red;
-		}
+			}
 		</style>
+		
 	</body>
 </html>

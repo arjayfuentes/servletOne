@@ -28,7 +28,6 @@ public class RoleService {
     }
 
     public Role getPersonRole(String personId, long roleId) {
-
         return roleDao.getPersonRole(personId, roleId);
     }
 
@@ -82,6 +81,10 @@ public class RoleService {
             }
         }while(checkPersonRoleIfExist(personId,roleId)==false);
         return roleId;
+    }
+    
+    public void deleteRole(long roleId){
+    	roleDao.deleteRole(roleId);
     }
 
 }

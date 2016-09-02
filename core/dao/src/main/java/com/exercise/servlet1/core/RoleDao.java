@@ -165,7 +165,7 @@ public class RoleDao {
             tx = session.beginTransaction();
             Role role = (Role) session.get(Role.class, roleId);
             role.setRoleName(updatedRole);
-            session.update(role);
+            session.merge(role);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -190,6 +190,22 @@ public class RoleDao {
             session.close();
         }
         return role;
+    }
+    
+    public void deleteRole(long roleId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Role role = (Role) session.get(Role.class, roleId);
+            session.delete(role);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
 }

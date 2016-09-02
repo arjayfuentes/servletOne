@@ -7,14 +7,44 @@
 
 <html>
 <head>
-	<h1><b>LIST OF ROLES</b></h1>
+	<h1><b>MANAGE ROLES</b></h1>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>List of Roles</title>
 </head>
 <body>
 	<a href = ${pageContext.request.contextPath}/MainPage>MAIN PAGE<br/></a>
+	<br>
 	<div>
 		<div class="row"><br>
+			
+			<div class="column column-6"><span style="color:red">${errors}</span></div>
+
+			<form action="${pageContext.request.contextPath}/ManageRoles?action=addRole" method="post">	
+				Role to Add:<br>
+				<input name="newRole"/>
+				<input type="submit" value="Add Role" />
+			</form>
+		
+			<form action="${pageContext.request.contextPath}/ManageRoles?action=updateRole" method="post">	
+				Role to Update <br>
+				<select name="updateIdRole">
+					<c:forEach var = "role" items = "${roles}">
+						<option value="${role.id}">${role.roleName}</option>
+					</c:forEach><br>
+					<input type="text" name="updateRoleName">
+				</select>
+				<input type="submit" value="Update Role" />
+			</form>
+			<form action="${pageContext.request.contextPath}/ManageRoles?action=deleteRole" method="post">	
+				Role to Delete <br>
+				<select name="deleteIdRole">
+					<c:forEach var = "role" items = "${roles}">
+						<option value="${role.id}">${role.roleName}</option>
+					</c:forEach><br>
+				</select>
+				<input type="submit" value="Delete Role" />
+			</form>
+			</div>	
 			<div class="column column-8" align="left">
 				<table>			
 					<tr>
@@ -30,7 +60,8 @@
 				</table>
 			</div>
 		</div>
-	</div>				
+	</div>
+	<br>		
 </body>
 	<style>
 	   table {border-collapse:collapse; table-layout:fixed; width:35%;}

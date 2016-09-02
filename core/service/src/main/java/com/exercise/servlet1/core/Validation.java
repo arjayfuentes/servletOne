@@ -88,18 +88,15 @@ public class Validation {
 		return contactValue;
 	}
 
-	public String inputString(String stringType){
-		System.out.print("Enter "+stringType+": ");
-		String string = read.nextLine();
-		while (string.length()==0){
-		   if(string.length()==0){
-		   System.out.print("Empty input. Re-enter "+stringType+": ");
-		   }
-		   string = read.nextLine();
+	public String inputString(String stringInput){
+		String errorMessage="";
+		if(stringInput.length()==0){
+		   errorMessage="Empty Input!!!!";
 		}
-		string=string.trim();
-		string=StringUtils.capitalize(string);
-		return string;
+		else{
+			errorMessage="Correct";
+		}
+		return errorMessage;
 	}
 
 	public String inputIdPerson(String message){

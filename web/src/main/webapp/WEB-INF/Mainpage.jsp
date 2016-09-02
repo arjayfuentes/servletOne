@@ -15,7 +15,7 @@
 			<div class="row">
 				<div class="column column-8" align="left">
 				  <a href="${pageContext.request.contextPath}/PersonOptions">ADD PERSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				  <a href="${pageContext.request.contextPath}/ListRoles">VIEW ROLES</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				  <a href="${pageContext.request.contextPath}/ManageRoles">MANAGE ROLES</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<br>
 					<br>
 					<form action="${pageContext.request.contextPath}/MainPage" method="get">
@@ -93,14 +93,15 @@
 									<br/>
 								</td>
 								<td>
-									<br><form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions" method= "get">
-										<input type = "hidden" name = "id" value = '${person.id}'>
-										<input type = "submit" value = "Edit"/>
-									</form>
-									<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions" method = "post">
-										<input type = "hidden" name = "id" value = "${person.id}">
-										<input type = "submit" onclick = "return confirm('WARNING!!! : Do you really want to delete employee record of \n\t\t\t\t ${name.firstName} ${name.middleName} ${name.lastName}?')" value = "Delete"/>
-									</form>
+								<br>
+								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions" method= "get">
+									<input type = "hidden" name = "id" value = '${person.id}'>
+									<input type = "submit" value = "Edit"/>
+								</form>
+								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions" method = "post">
+									<input type = "hidden" name = "id" value = "${person.id}">
+									<input type = "submit" onclick = "return confirm('WARNING!!! : Do you really want to delete employee record of \n\t\t\t\t ${person.firstName} ${person.middleName} ${person.lastName}?')" value = "Delete"/>
+								</form>
 								</td>
 							</tr>
 						</c:forEach>
