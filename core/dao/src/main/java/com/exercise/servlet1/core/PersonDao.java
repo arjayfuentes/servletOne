@@ -1,11 +1,13 @@
 package com.exercise.servlet1.core;
 
+import java.text.ParseException;
 import java.util.*;
 
 import com.exercise.servlet1.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.apache.commons.lang3.time.DateUtils;
 
 public class PersonDao{
 
@@ -72,10 +74,49 @@ public class PersonDao{
 		}
 		return persons;
 	}
+	
+	public List<Person> getPersonsSearch(String searchType, String searchValue){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = null;
+		List <Person> persons = null;
+		Query query =null;
+		try {
+			tx = session.beginTransaction();
+			switch(searchType){
+				case "id" :
+					query = session.createQuery("FROM Person p WHERE p.id = :searchValue");
+					query.setParameter("searchValue",searchValue);
+					break;
+				case "lastName" :
+					query = session.createQuery("FROM Person p WHERE p.lastName = :searchValue");
+					query.setParameter("searchValue",searchValue);
+					break;
+				case "dateHired" :
+					Date dateSearchValue=DateUtils.parseDate(searchValue, "MM-dd-yyyy");
+					query = session.createQuery("FROM Person p WHERE p.dateHired = :searchValue");
+					query.setParameter("searchValue",dateSearchValue);
+					break;
+				case "gwa":
+					float gwaSearchValue = Float.parseFloat(searchValue);
+					query = session.createQuery("FROM Person p WHERE p.gwa = :searchValue");
+					query.setParameter("searchValue",gwaSearchValue);
+					break;
+				default:
+					break;
+			}	
+		    persons = query.list();
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) tx.rollback();
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return persons;
+	}
 
-
-
-	//option2 done
 	public void addPerson(Person person) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = null;
@@ -91,7 +132,6 @@ public class PersonDao{
 		}
 	}
 
-	//option3 done
 	public void deletePerson(String personId) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = null;
@@ -110,8 +150,6 @@ public class PersonDao{
 		}
 	}
 
-
-	//option 4
 	public void updatePerson(String personId, Person updatedPerson){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = null;

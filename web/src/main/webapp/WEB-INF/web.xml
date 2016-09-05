@@ -32,13 +32,22 @@
     <url-pattern>/ManageRoles/*</url-pattern>
   </servlet-mapping>
   <servlet>
-    <display-name>AddPerson</display-name>
-    <servlet-name>AddPerson</servlet-name>
-    <servlet-class>com.exercise.servlet1.AddPerson</servlet-class>
+    <display-name>ManageContacts</display-name>
+    <servlet-name>ManageContacts</servlet-name>
+    <servlet-class>com.exercise.servlet1.ManageContacts</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>AddPerson</servlet-name>
-    <url-pattern>/AddPerson/*</url-pattern>
+    <servlet-name>ManageContacts</servlet-name>
+    <url-pattern>/ManageContacts/*</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <display-name>ContactPerson</display-name>
+    <servlet-name>ContactPerson</servlet-name>
+    <servlet-class>com.exercise.servlet1.ContactPerson</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ContactPerson</servlet-name>
+    <url-pattern>/ContactPerson/*</url-pattern>
   </servlet-mapping>
   
 </web-app>

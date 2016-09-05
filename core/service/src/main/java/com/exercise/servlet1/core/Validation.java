@@ -3,14 +3,110 @@ package com.exercise.servlet1.core;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.commons.lang3.math.NumberUtils;
 
 public class Validation {
 
 	private Scanner read = new Scanner(System.in);
+	private List<String> errors = new ArrayList<String>();
+	
+	public List<String> checkPersonValid( String firstName, String middleName, String lastName, 
+				String gwa, String birthDate, String employed, String dateHired, String [] roleId , 
+				String houseNo, String street, String barangay, String city, String zipCode, 
+				String contactMobile, String contactLandline, String contactEmail ){
+		
+		checkName(firstName, middleName, lastName, gwa, birthDate, dateHired, houseNo, street, barangay, city,zipCode);
+		checkGwa(gwa);
+		checkDate(birthDate,"birthDate");
+		checkDate(dateHired,"dateHired");
+		checkRole(employed,roleId);
+		checkNumber(houseNo,"houseNo");
+		checkNumber(zipCode,"zipCode");
+		checkContactNumber(contactMobile,11,"mobile");
+		checkContactNumber(contactLandline,7,"landline");
+		checkContactEmail(contactEmail);
+		
+		return errors;
+	}
+	
+	public void clearErrors(){
+		errors.clear();
+	}
+	
+	public void checkName(String firstName, String middleName, String lastName, 
+		String gwa, String birthDate, String dateHired,
+		String houseNo, String street, String barangay, String city, String zipCode ){
+		
+		if(firstName.isEmpty()|| middleName.isEmpty() || lastName.isEmpty() 
+			|| gwa.isEmpty() || birthDate.isEmpty() || dateHired.isEmpty() 
+			|| houseNo.isEmpty() || street.isEmpty() || barangay.isEmpty() || city.isEmpty() || zipCode.isEmpty()){
+			errors.add("Empty required fields.");
+		}
+		
+	}
+		
+	public void checkGwa(String gwa){
+		int min = 1;
+		int max = 5;
+		try{
+	      float f = Float.valueOf(gwa);
+	      if(f<1 && f>5){
+	    	  errors.add("Invalid Gwa");
+	      }
+	    }
+	    catch (NumberFormatException e){
+	    	errors.add("Invalid Gwa");
+	    }
+	}
+	
+	public void checkDate(String dateIn, String dateType){		  
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		Date checkDate=null;
+		try {
+			checkDate = formatter.parse(dateIn);
+		} catch (ParseException e) {
+			errors.add("Invalid date format for "+dateType);
+		}
+	}
+	
+	public void checkRole(String employed, String [] roleId){
+		if(Boolean.parseBoolean(employed)){
+			if(roleId.length==0){
+				errors.add("Employed choice is YES.Choose a role");
+			}
+		}
+		
+	}
+	
+	public void checkNumber(String addressNum, String num){
+		if(NumberUtils.isDigits(addressNum)!=true){
+			errors.add("Invalid input in "+num+" field");
+		}
+	}
+
+	public void checkContactNumber(String contactValue,int length, String num){
+		if(!contactValue.isEmpty()){
+			if(NumberUtils.isDigits(contactValue)!=true){
+				errors.add("Invalid input in "+num+" field");
+			}
+		}
+	}
+	
+	public void checkContactEmail(String contactEmail){
+		if(!contactEmail.isEmpty()){
+			EmailValidator emailValid = EmailValidator.getInstance();
+			if(!emailValid.isValid(contactEmail)){
+				errors.add("Invalid email");
+			}
+		}
+	}
+	
 
 	public int inputNumber(String numberType){
 		int number=0;
@@ -88,15 +184,18 @@ public class Validation {
 		return contactValue;
 	}
 
-	public String inputString(String stringInput){
-		String errorMessage="";
-		if(stringInput.length()==0){
-		   errorMessage="Empty Input!!!!";
+	public String inputString(String stringType){
+		System.out.print("Enter "+stringType+": ");
+		String string = read.nextLine();
+		while (string.length()==0){
+		   if(string.length()==0){
+		   System.out.print("Empty input. Re-enter "+stringType+": ");
+		   }
+		   string = read.nextLine();
 		}
-		else{
-			errorMessage="Correct";
-		}
-		return errorMessage;
+		string=string.trim();
+		string=StringUtils.capitalize(string);
+		return string;
 	}
 
 	public String inputIdPerson(String message){
@@ -215,5 +314,9 @@ public class Validation {
 		}
 		return checkDate;
 	}
+
+	
+	
+	
 
 }

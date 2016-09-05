@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 
 public class PersonOptions extends HttpServlet{
@@ -16,10 +18,7 @@ public class PersonOptions extends HttpServlet{
   PersonService personService = new PersonService();
   RoleService roleService = new RoleService();
   
-  /*Method is used to add or edit a person by calling Person.jsp. Id=null indicates that the method's request is for adding a person. 
-   * If the requested parameter "ID" has value, method's request is for updating/editing the existing data of a person. 
-   * Create new person = called from the "add person" hyperlink in the mainpage.jsp
-   * Edit person = called from the edit button of the particular peson in mainpage.jsp*/
+  
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 	  String id = request.getParameter("id");
 	  if(id==null){
@@ -31,18 +30,29 @@ public class PersonOptions extends HttpServlet{
 		  request.setAttribute("id", id);
 	  }
 	  request.setAttribute("roles", roleService.getRoles());
-	  request.getRequestDispatcher("/WEB-INF/Person.jsp").forward(request, response);  
-	  //go to person.jsp. getting person data info or edit info
+	  
+	  HttpSession session = request.getSession(false);
+	  if(session != null){
+		String uname = (String)session.getAttribute("uname");
+		String emailId = (String)session.getAttribute("emailId");
+	  }
+	  
+	  request.getRequestDispatcher("/WEB-INF/Person.jsp").forward(request, response);
   }
 
   //this method is use to delete a person by getting the parameter ID. Called from delete button of a particular person.
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	String action= request.getParameter("action");
 	System.out.println("Action = Delete Person");
     System.out.println("PersonOptions DoPost method called");
-	String id = request.getParameter("id");
-    PersonService personService = new PersonService();
-    personService.deletePerson(id);
-    response.sendRedirect(request.getContextPath()+"/MainPage?delete=SUCCESS");
+    if(action.equals("delete")){
+		String id = request.getParameter("id");
+	    PersonService personService = new PersonService();
+	    personService.deletePerson(id);
+	    response.sendRedirect(request.getContextPath()+"/MainPage?delete=SUCCESS");
+    }
+    
+    
   }
   
   /* Methods below:  These are to show that the method's are being called and to display status in the console*/

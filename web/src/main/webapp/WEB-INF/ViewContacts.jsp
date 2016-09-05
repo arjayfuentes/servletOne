@@ -7,68 +7,80 @@
 
 <html>
 <head>
-	<h1><b>MANAGE ROLES</b></h1>
+	<h1><b>MANAGE CONTACTS</b></h1>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>List of Roles</title>
 </head>
 <body>
 	<a href = ${pageContext.request.contextPath}/MainPage>MAIN PAGE<br/></a>
 	<br><br><br>
-	
-	<div class="row">
-		<c:out value="${errors}"/>		
-		Role to Add:
-		<form action="${pageContext.request.contextPath}/ManageRoles?action=addRole" method="post">	
-			<input type="text" name="newRole"/>
-			<input type="submit" value="Add Role" />
-		</form>
-	</div>
-	
-	<div class="row">
-		<div class="column column-6"><span style="color:red">${error}</span>		
-		Role to Update 	
-		<form action="${pageContext.request.contextPath}/ManageRoles?action=updateRole" method="post">
-			<select name="updateIdRole">
-				<c:forEach var = "role" items = "${roles}">
-					<option value="${role.id}">${role.roleName}</option>
-				</c:forEach><br>
-				<input type="text" name="updateRoleName">
-			</select>
-			<input type="submit" value="Update Role" />
-		</form>
-	</div>
-	
-	<div class="row">
-		<div class="column column-6"><span style="color:red">${error}</span>		
-		Role to Delete
-			<form action="${pageContext.request.contextPath}/ManageRoles?action=deleteRole" method="post">	
-				<select name="deleteIdRole">
-				<c:forEach var = "role" items = "${roles}">
-					<option value="${role.id}">${role.roleName}</option>
-				</c:forEach><br>
-			</select>
-			<input type="submit" value="Delete Role" />
-		</form>	 
-	</div>
-	
+
+		<div class="row">
+			<div class="column column-8">	
+				<form action="${pageContext.request.contextPath}/ContactPerson" method="get">	
+					<select name="personId">
+					<c:forEach var = "person" items = "${persons}">
+						<option value="${person.id}">${person.id }</option>
+					</c:forEach><br>
+					</select>
+					<input type="submit" value="View Contacts" />
+				</form>	 
+			</div>
+		</div>
+		<div class="row">
+			<div class="column column-6"><span style="color:red">${error}</span>		
+			Role to Update 	
+			<form action="${pageContext.request.contextPath}/ContactPerson?action=update" method="post">
+				<select name="contactId">
+					<c:forEach var = "contact" items = "${contacts}">
+						<option value="${contact.id}">${contact.contactValue}</option>
+					</c:forEach><br>
+					<input type="text" name="newContactValue">
+				</select>
+				<input type="submit" value="Update Contact" />
+			</form>
+		</div>
+		
+		
+		
+		
 		<div>
 	         LIST ROLES
 		         <br><br><br>
 		         <table>			
 					<tr>
-						<th>Role ID</th>
-						<th>Role Name</th>
+						<th>Contact Type</th>
+						<th>Contact Value</th>
 					</tr>
-					<c:forEach var = "role" items = "${roles}">
+					<c:forEach var = "contact" items = "${contacts }">
 					<tr>
-						<td><c:out value = "${role.id}"/></td>
-						<td><c:out value = "${role.roleName}"/></td>
+						<td><c:out value = "${contact.contactType}"/></td>
+						<td><c:out value = "${contact.contactValue}"/></td>
 					</tr>
 					</c:forEach>																				
 				</table>
 	   </div>
 	
-	<br>		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </body>
 	<style>
 	  table {

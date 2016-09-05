@@ -6,28 +6,31 @@
 
 <html>
 	<head>
-		<h1><b>MAIN PAGE</b></h1>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Main Page</title>
   	</head>
 	<body>
 		<div>
 			<div class="row">
 				<div class="column column-8" align="left">
-				  <a href="${pageContext.request.contextPath}/PersonOptions">ADD PERSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				  <a href="${pageContext.request.contextPath}/ManageRoles">MANAGE ROLES</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<br>
-					<br>
+				  	<a href="${pageContext.request.contextPath}/PersonOptions">ADD PERSON</a>
+				 	<a href="${pageContext.request.contextPath}/ManageRoles">MANAGE ROLES</a>
+				 	<a href="${pageContext.request.contextPath}/ManageContacts">MANAGE CONTACTS</a>
+					<br><br>
 					<form action="${pageContext.request.contextPath}/MainPage" method="get">
-					   Sort Persons By <i>(Select choice and click Sort) :</i></br>
+					  <label>List Employees:</label><br>
 					  <input type="radio" name="sort" value="sortById" checked="checked" >by ID</br>
+					  <input type="radio" name="sort" value="sortByLastName">by Last Name</br>
 					  <input type="radio" name="sort" value="sortByDateHired">by Date Hired</br>
 					  <input type="radio" name="sort" value="sortByGwa">by GWA</br>
-					  <input type="radio" name="sort" value="sortByLastName">by Last Name</br></br>
 					  <input type="submit" value="SORT" />
 					</form>
-					</br>
-					<table border="10">
+					<form action = "${pageContext.request.contextPath}/MainPage" method = "get">
+						<input type = "text" name = "searchId" placeholder = "Enter Id here to Search"/>
+						<input type = "submit" name = "search" value = "Search"/><p></p>				
+					</form>
+					
+					<table class="table" border="10">
+						<thead class="thead-inverse">
 						<tr>
 							<th>Person ID</th>
 							<th>Full Name</th>
@@ -39,6 +42,7 @@
 							<th>Contacts</th>
 							<th>Options</th>
 						</tr>
+						 </thead>
 						<c:set var="persons" value='${persons}' />
 						<c:forEach var="person" items="${persons}" >
 							<tr>
@@ -94,11 +98,11 @@
 								</td>
 								<td>
 								<br>
-								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions" method= "get">
-									<input type = "hidden" name = "id" value = '${person.id}'>
+								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions?action=edit" method= "get">
+									<input type = "hidden" name = "id" value = "${person.id}">
 									<input type = "submit" value = "Edit"/>
 								</form>
-								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions" method = "post">
+								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions?action=delete" method = "post">
 									<input type = "hidden" name = "id" value = "${person.id}">
 									<input type = "submit" onclick = "return confirm('WARNING!!! : Do you really want to delete employee record of \n\t\t\t\t ${person.firstName} ${person.middleName} ${person.lastName}?')" value = "Delete"/>
 								</form>
@@ -111,9 +115,47 @@
 		</div>
 	</body>
 	<style>
-	   table {border-collapse:collapse; table-layout:fixed; width:100%;}
-	   table th, td {border:solid 2px ; width:120px; word-wrap:break-word;}
-	   td{text-align:center;}
-	   buttons{align-items: center;}
+	   table {
+	    	border-collapse: collapse;
+	    	table-layout:fixed;
+	    	width: 100%;
+		}
+		
+		table, th, td {
+		    border: 1px solid black;
+		    word-wrap:break-word;
+		    text-align:center;
+		}
+		th{
+			background-color: #748269;
+	    	color: white;
+	    }
+		buttons{
+			align-items: center;
+		}
+		tr:hover{background-color:#f5f5f5}
+		tr:nth-child(even) {
+		  background-color: #f2f2f2
+		}
+		tr:nth-child(odd) {
+		  background-color: white;
+		}
+		a:link, a:visited {
+		    background-color:  #748269;
+		    color: white;
+		    padding: 14px 25px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		}
+		
+		a:hover, a:active {
+		    background-color: #306813;
+		}
+		head { display: block; }
+		title { display: block; font-size: 200%; font-weight: bold; }
+		
 	</style>
+	 
+	
 </html>

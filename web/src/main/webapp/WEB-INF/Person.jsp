@@ -11,15 +11,17 @@
 	<body>
 		<div>
 			<div class="row">
-				
 				<c:forEach var = "error" items = "${errors}">
-					<div class="column column-6"><span style="color:red">${error}</span></div>
+					<div class="column column-6"><span style="color:red">${error}</span>
+					</div>
 				</c:forEach>
-				
-				<form action="${pageContext.request.contextPath}/AddPerson" method="post">
+				<a href = "${pageContext.request.contextPath}/MainPage">Back to Main Page</a><p></p>
+				<form action="${pageContext.request.contextPath}/MainPage" method="post">
 					<input type="hidden" name="personId" value="${person.id}">
-					<fmt:formatDate pattern="MM/dd/yyyy" value="${person.birthDate}" var="birthDate"/>
-					<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateHired}" var="dateHired"/>
+					<fmt:formatDate pattern="MM/dd/yyy" value="${person.birthDate}" var="birthDate"/>
+					<fmt:formatDate pattern="MM/dd/yyy" value="${person.dateHired}" var="dateHired"/>
+					<c:set value="${person.firstName}" var="firstName"/>
+					
 					<div class="column column-8">
 						<fieldset style="padding:3%">
 							<legend>PERSON NAME:</legend>
@@ -27,15 +29,15 @@
 								<div>
 									<tr>
 										<td><span class="required">*</span></div>First Name:</td>
-										<td><input type="text" name="firstName" value="${person.firstName}"></td>
+										<td><input type="text" name="firstName" required value="${person.firstName}" placeholder=""></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Middle Name:</td>
-										<td><input type="text" name="middleName" value="${person.middleName}"></td>
+										<td><input type="text" name="middleName" required value="${person.middleName}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Last Name:</td>
-										<td><input type="text" name="lastName" value="${person.lastName}"></td>
+										<td><input type="text" name="lastName" required value="${person.lastName}"></td>
 									</tr>
 									<tr>
 										<td>&nbsp;&nbsp;Suffix:</td>
@@ -58,11 +60,11 @@
 								<div>
 									<tr>
 										<td><span class="required">*</span></div>GWA:</td>
-										<td><input type="text" name="gwa" value="${person.gwa}"></td>
+										<td><input type="text" name="gwa" required value="${person.gwa}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Birthday</td>
-										<td><input type="date" name="birthday" value="${birthDate}" placeholder="12/30/1900"></td>
+										<td><input type="text" name="birthDate" required value="${birthDate}" placeholder="12/30/1900"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span>Employed:</td>
@@ -75,7 +77,7 @@
 										<td>Date Hired:</td>
 										<td>
 											<fmt:formatDate value="${ojbect.date}" pattern="dd/MM/yyyy" />
-											<input type="date" name="dateHired" value="${dateHired}" placeholder="12/30/1900">
+											<input type="text" name="dateHired" required value="${dateHired}" placeholder="12/30/1900">
 											<span class="required">*(if employed)</span>
 										</td>
 									</tr>
@@ -92,6 +94,7 @@
 												<input type="checkbox" name="roleId" value="${role.id}"/>${role.roleName}<br/>
 											</c:if>
 										</c:forEach>
+										<span class="required">*(if employed)</span>
 										</td>
 									</tr>
 								</div>
@@ -107,77 +110,79 @@
 								<div>
 									<tr>
 										<td><span class="required">*</span></div>House No:</td>
-										<td><input type="text" name="houseNo" value="${person.address.houseNo}"></td>
+										<td><input type="text" name="houseNo" required value="${person.address.houseNo}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Street:</td>
-										<td><input type="text" name="street" value="${person.address.street}"></td>
+										<td><input type="text" name="street" required value="${person.address.street}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Barangay:</td>
-										<td><input type="text" name="barangay" value="${person.address.barangay}"></td>
+										<td><input type="text" name="barangay" required value="${person.address.barangay}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>City:</td>
-										<td><input type="text" name="city" value="${person.address.city}"></td>
+										<td><input type="text" name="city" required value="${person.address.city}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>ZipCode:</td>
-										<td><input type="text" name="zipCode" value="${person.address.zipCode}"></td>
+										<td><input type="text" name="zipCode" required value="${person.address.zipCode}"></td>
 									</tr>
 								</div>
 							</table>
 						</fieldset>
 					</div>
 					<br>
-					<div class="column column-6" align="center">
-						<fieldset style="padding:1%">
-						<legend>CONTACTS:</legend>
-							<table align="center">
-								<div>
-									<c:forEach var="contact" items="${person.contacts}">
-									<tr>
-										<td>${contact.contactType }</td>
-										<td>${contact.contactValue }</td>
-										<td>
-											<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions" method = "post">
-												<input type = "hidden" name = "id" value = "${person.id}">
-												<input type = "submit" value = "Delete"/>
-											</form>
-										</td>	
-									</tr>	
-									</c:forEach>
-								</div>
+					<c:choose>
+					<c:when test = "${empty id}">
+						<div class="column column-8" align="center">
+							<fieldset style="padding:3%">
+								<legend>CONTACTS:</legend>
+								<table>
+								<tr>
+									<td>Mobile:</td>
+									<td><input type="number" name="mobile"></td>
+								</tr>
+								<tr>
+									<td>Landline:</td>
+									<td><input type="number" name="landline"></td>
+								</tr>
+								<tr>
+									<td>Email:</td>
+									<td><input type="email" name="email"></td>
+								</tr>
 							</table>
-						</fieldset>
-					</div>
-				    <div align = "center">
+							</fieldset>
+						</div>
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+					</c:choose>
+				
+					<div align = "center">
 						<c:choose>
-							<c:when test="${empty id}">
-								<input type="submit" value="add" align= "center"/>
+							<c:when test = "${empty id}">
+								<input type = "submit" value = "Add" align = "center"/>
 							</c:when>
 							<c:otherwise>
-								<input type="submit" value="save" align= "center"/>
+								<p></p>
+								<input type = "submit" value = "Update" align = "center"/>
 							</c:otherwise>
 						</c:choose>
 					</div>
-				
+					
 				</form>
-				
-				<div align = "center">
-					<form action="${pageContext.request.contextPath}/MainPage" method="get">
+			</div>
+			
+			<div class="column column-8" align="center">
+				<form action="${pageContext.request.contextPath}/MainPage" method="get">
 					 <input type="submit" value="cancel" align= "center"/>
-					</form>
-				</div>
-
+				</form>		
 			</div>
 		</div>
-		
 		<style>
 			.required{
 			color:red;
-			}
-		</style>
-		
+		}
 	</body>
 </html>

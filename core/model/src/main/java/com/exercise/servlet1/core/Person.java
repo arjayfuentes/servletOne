@@ -81,6 +81,12 @@ public class Person implements Serializable
 		this.contacts= contacts;
 	}
 
+	public Person(String firstName2, String middleName2, String lastName2, String suffix2, String title2,
+			String birthDate2, String employed2, String gwa2, String dateHired2, Address address2,
+			Set<Contact> personContacts, Set<Role> personRoles) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getId() {
         return id;
     }

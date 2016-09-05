@@ -22,6 +22,18 @@ public class RoleService {
             return true;
         }
     }
+    
+    public boolean checkRoleNameIfExist(String roleName){
+    	boolean exist= false;
+    	List<Role> roles = getRoles();
+    	for(Role r : roles){
+    		if(r.getRoleName().equalsIgnoreCase(roleName)){
+    			exist=true;
+    			break;
+    		}
+    	}
+    	return exist;
+    }
 
     public Set<Role> getPersonRoles(String personId) {
         return roleDao.getPersonRoles(personId);

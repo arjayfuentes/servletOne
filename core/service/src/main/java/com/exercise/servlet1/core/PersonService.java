@@ -45,7 +45,12 @@ public class PersonService {
 		List<Person> persons = personDao.getPersons(order);
 		return persons;
 	}
-
+	
+	public List<Person> getPersonsSearch(String searchType, String searchValue){
+		List<Person> persons = personDao.getPersonsSearch(searchType,searchValue);
+		return persons;
+	}
+	
 	public boolean checkPersonIfExist(String personId){
 		if(personDao.getPerson(personId)== null){
 			return false;
@@ -65,5 +70,7 @@ public class PersonService {
 		}while((checkPersonIfExist(personId)) == false);
 		return personId;
 	}
+
+	
 
 }

@@ -41,38 +41,43 @@ public class ManageRoles extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String action = request.getParameter("action");
 		if(action.equals("addRole")){
+			String message=null;
 			String newRole = request.getParameter("newRole");
-			String message=check.inputString(newRole);
-			if(!message.equals("Correct")){
-				request.setAttribute("errors",message);
-			}
-			else{
-				if(roleService.getRoles().contains(newRole)){
-					
+				if(newRole.isEmpty()){
+					message = "You entered an empty field";
+					request.setAttribute("errors", message);
+				}
+				if(roleService.checkRoleNameIfExist(newRole)==true){
+					message = " Role already exist. Try another role";
+					request.setAttribute("errors", message);
 				}
 				else{
 					roleService.addRole(newRole);
 				}
-			}
 		}
-		
+	
 		if(action.equals("updateRole")){
 			long updateIdRole = Long.parseLong(request.getParameter("updateIdRole"));
 			String updateRoleName = request.getParameter("updateRoleName");
-			String message=check.inputString(updateRoleName);
-			if(!message.equals("Correct")){
-				request.setAttribute("errors",message);
+			String message= null;
+			if(updateRoleName.isEmpty()){
+				message = "YOu entered an empty field";
+				request.setAttribute("errors", message);
+			}
+			if(roleService.checkRoleNameIfExist(updateRoleName)==true){
+				message = " Role already exist. Try another role";
+				request.setAttribute("errors", message);
 			}
 			else{
 				roleService.updateRole(updateIdRole, updateRoleName);
 			}
+			
 		}
 		
 		if(action.equals("deleteRole")){
 			long deleteIdRole = Long.parseLong(request.getParameter("deleteIdRole"));
 			roleService.deleteRole(deleteIdRole);
 		}
-
 		response.sendRedirect(request.getContextPath()+"/ManageRoles");
 		
 	}
