@@ -9,78 +9,72 @@
 <head>
 	<h1><b>MANAGE CONTACTS</b></h1>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>List of Roles</title>
+	<title>Person Contacts</title>
 </head>
 <body>
 	<a href = ${pageContext.request.contextPath}/MainPage>MAIN PAGE<br/></a>
-	<br><br><br>
-
+		<br><br><br>
+		<c:set var="person" value="${person}"/><br>
+		Contact Management for :<c:out value="${person.firstName}"/> <c:out value="${person.lastName}"/>
+		<br><br>
 		<div class="row">
-			<div class="column column-8">	
-				<form action="${pageContext.request.contextPath}/ContactPerson" method="get">	
-					<select name="personId">
-					<c:forEach var = "person" items = "${persons}">
-						<option value="${person.id}">${person.id }</option>
-					</c:forEach><br>
-					</select>
-					<input type="submit" value="View Contacts" />
-				</form>	 
-			</div>
+			<div class="column column-6"><span style="color:red">${addError}</span><br>	
+			 <form action = "${pageContext.request.contextPath}/ManageContacts?action=addContact" method = "post">	
+			 	<select name="typeNewContact">
+					<option value="LANDLINE">Land Line</option>
+					<option value="MOBILE">Mobile</option>
+					<option value="EMAIL">Email</option>
+				</select>	
+				<input type="text" name="valueNewContact"/>
+				<input type = "hidden" name = "id" value = "${person.id}">
+				<input type="submit" value="Add Contact" />
+			 </form>
+			 </div>
 		</div>
+		<br>
 		<div class="row">
-			<div class="column column-6"><span style="color:red">${error}</span>		
-			Role to Update 	
-			<form action="${pageContext.request.contextPath}/ContactPerson?action=update" method="post">
-				<select name="contactId">
-					<c:forEach var = "contact" items = "${contacts}">
+			<div class="column column-6"><span style="color:red">${updateError}</span><br>	 	
+			 <form action = "${pageContext.request.contextPath}/ManageContacts?action=updateContact" method = "post">
+	        	<select name="contactId">
+					<c:forEach var = "contact" items = "${person.contacts}">
 						<option value="${contact.id}">${contact.contactValue}</option>
-					</c:forEach><br>
-					<input type="text" name="newContactValue">
+					</c:forEach>
 				</select>
+				<input type="text" name="newContactValue">
+				<input type = "hidden" name = "id" value = "${person.id}">
 				<input type="submit" value="Update Contact" />
-			</form>
+	        </form>
+	    	</div>
 		</div>
-		
-		
-		
-		
-		<div>
-	         LIST ROLES
-		         <br><br><br>
-		         <table>			
-					<tr>
-						<th>Contact Type</th>
-						<th>Contact Value</th>
-					</tr>
-					<c:forEach var = "contact" items = "${contacts }">
-					<tr>
-						<td><c:out value = "${contact.contactType}"/></td>
-						<td><c:out value = "${contact.contactValue}"/></td>
-					</tr>
-					</c:forEach>																				
-				</table>
-	   </div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+        <br>
+        <div class="row">	
+	        <form action = "${pageContext.request.contextPath}/ManageContacts?action=deleteContact" method = "post">
+	        	<select name="contactId">
+					<c:forEach var = "contact" items = "${person.contacts}">
+						<option value="${contact.id}">${contact.contactValue}</option>
+					</c:forEach>
+				</select>
+				<input type = "hidden" name = "id" value = "${person.id}">
+				<input type="submit" value="Delete Contact" />
+	        </form>
+	    </div>
+	    <br>
+	     <div>
+		  	<table>
+		  		<tr>
+		  			<th>Contact ID</th>
+		  			<th>Contact Type</th>
+		  			<th>Contact ContactValue</th>
+		  		</tr>
+		  		<c:forEach var = "contact" items = "${person.contacts}">
+		  		<tr>
+		  			<td>${contact.id}</td>
+		  			<td>${contact.contactType}</td>	
+		  			<td>${contact.contactValue}</td>
+		  		</tr>
+		  		</c:forEach>
+		  	</table>
+		  </div>	
 </body>
 	<style>
 	  table {

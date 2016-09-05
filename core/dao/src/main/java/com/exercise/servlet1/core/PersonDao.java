@@ -153,7 +153,6 @@ public class PersonDao{
 	public void updatePerson(String personId, Person updatedPerson){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = null;
-		Address address = null;
 		try{
 			tx = session.beginTransaction();
 			Person person =(Person)session.get(Person.class, personId);
@@ -167,6 +166,7 @@ public class PersonDao{
 			person.setGwa(updatedPerson.getGwa());
 			person.setDateHired(updatedPerson.getDateHired());
 			person.setAddress(updatedPerson.getAddress());
+			person.setRoles(updatedPerson.getRoles());
 			session.merge(person);
 			tx.commit();
 		}catch (HibernateException e) {

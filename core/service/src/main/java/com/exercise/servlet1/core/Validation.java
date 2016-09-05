@@ -16,12 +16,12 @@ public class Validation {
 	private Scanner read = new Scanner(System.in);
 	private List<String> errors = new ArrayList<String>();
 	
-	public List<String> checkPersonValid( String firstName, String middleName, String lastName, 
+	public List<String> checkAddPersonValid( String firstName, String middleName, String lastName, 
 				String gwa, String birthDate, String employed, String dateHired, String [] roleId , 
 				String houseNo, String street, String barangay, String city, String zipCode, 
 				String contactMobile, String contactLandline, String contactEmail ){
 		
-		checkName(firstName, middleName, lastName, gwa, birthDate, dateHired, houseNo, street, barangay, city,zipCode);
+		checkEmpty(firstName, middleName, lastName, gwa, birthDate, dateHired, houseNo, street, barangay, city,zipCode);
 		checkGwa(gwa);
 		checkDate(birthDate,"birthDate");
 		checkDate(dateHired,"dateHired");
@@ -35,11 +35,27 @@ public class Validation {
 		return errors;
 	}
 	
+	
+	public List<String> checkEditPersonValid( String firstName, String middleName, String lastName, 
+			String gwa, String birthDate, String employed, String dateHired, String [] roleId , 
+			String houseNo, String street, String barangay, String city, String zipCode ){
+	
+		checkEmpty(firstName, middleName, lastName, gwa, birthDate, dateHired, houseNo, street, barangay, city,zipCode);
+		checkGwa(gwa);
+		checkDate(birthDate,"birthDate");
+		checkDate(dateHired,"dateHired");
+		checkRole(employed,roleId);
+		checkNumber(houseNo,"houseNo");
+		checkNumber(zipCode,"zipCode");
+	
+		return errors;
+	}
+	
 	public void clearErrors(){
 		errors.clear();
 	}
 	
-	public void checkName(String firstName, String middleName, String lastName, 
+	public void checkEmpty(String firstName, String middleName, String lastName, 
 		String gwa, String birthDate, String dateHired,
 		String houseNo, String street, String barangay, String city, String zipCode ){
 		
@@ -76,9 +92,9 @@ public class Validation {
 	}
 	
 	public void checkRole(String employed, String [] roleId){
-		if(Boolean.parseBoolean(employed)){
+		if(Boolean.parseBoolean(employed)==true){
 			if(roleId.length==0){
-				errors.add("Employed choice is YES.Choose a role");
+				errors.add("Choose at least one role");
 			}
 		}
 		
@@ -91,14 +107,19 @@ public class Validation {
 	}
 
 	public void checkContactNumber(String contactValue,int length, String num){
+		contactValue = contactValue.trim();
 		if(!contactValue.isEmpty()){
 			if(NumberUtils.isDigits(contactValue)!=true){
 				errors.add("Invalid input in "+num+" field");
+			}
+			if(contactValue.length()!=length){
+				errors.add("Invalid length for "+num+" digits should be "+length);
 			}
 		}
 	}
 	
 	public void checkContactEmail(String contactEmail){
+		contactEmail = contactEmail.trim();
 		if(!contactEmail.isEmpty()){
 			EmailValidator emailValid = EmailValidator.getInstance();
 			if(!emailValid.isValid(contactEmail)){
@@ -108,6 +129,60 @@ public class Validation {
 	}
 	
 
+	public String checkNumberContact(String contactValue,int length){
+		String errorMessage=null;
+		if(NumberUtils.isDigits(contactValue)!=true){
+			errorMessage="Not a number";
+		}	
+		else if(contactValue.length()!=length){
+			errorMessage="Not valid length";
+		}
+		else if(contactValue.isEmpty()){
+			errorMessage="Empty input";
+		}
+		else{
+			errorMessage="No errors";
+		}
+		return errorMessage;
+			
+	}
+	
+	public String checkEmailContact(String contactEmail){
+		String errorMessage= null;
+		EmailValidator emailValid = EmailValidator.getInstance();
+		if(!emailValid.isValid(contactEmail)){
+			errorMessage="Invalid email";
+		}
+		else if(contactEmail.isEmpty()){
+			errorMessage="Empty input";
+		}
+		else{
+			errorMessage="No errors";
+		}
+		return errorMessage;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public int inputNumber(String numberType){
 		int number=0;
 		System.out.printf("Enter %s: ",numberType);

@@ -13,11 +13,10 @@
 </head>
 <body>
 	<a href = ${pageContext.request.contextPath}/MainPage>MAIN PAGE<br/></a>
-	<br><br><br>
-	
+	<br><br>
 	<div class="row">
-		<c:out value="${errors}"/>		
-		Role to Add:
+		<div class="column column-6"><span style="color:red">${addError}</span><br>	
+		Add Role:
 		<form action="${pageContext.request.contextPath}/ManageRoles?action=addRole" method="post">	
 			<input type="text" name="newRole"/>
 			<input type="submit" value="Add Role" />
@@ -25,8 +24,8 @@
 	</div>
 	
 	<div class="row">
-		<div class="column column-6"><span style="color:red">${error}</span>		
-		Role to Update 	
+		<div class="column column-6"><span style="color:red">${updateError}</span><br>		
+		Update Role: 	
 		<form action="${pageContext.request.contextPath}/ManageRoles?action=updateRole" method="post">
 			<select name="updateIdRole">
 				<c:forEach var = "role" items = "${roles}">
@@ -37,10 +36,10 @@
 			<input type="submit" value="Update Role" />
 		</form>
 	</div>
-	
+	<br>
 	<div class="row">
-		<div class="column column-6"><span style="color:red">${error}</span>		
-		Role to Delete
+		<div class="column column-6"><span style="color:red">${deleteError}</span><br>		
+		Delete Role:
 			<form action="${pageContext.request.contextPath}/ManageRoles?action=deleteRole" method="post">	
 				<select name="deleteIdRole">
 				<c:forEach var = "role" items = "${roles}">
@@ -52,8 +51,8 @@
 	</div>
 	
 		<div>
-	         LIST ROLES
-		         <br><br><br>
+	         LIST OF ROLES
+		         <br><br>
 		         <table>			
 					<tr>
 						<th>Role ID</th>

@@ -1,6 +1,7 @@
 package com.exercise.servlet1.core;
 
 import java.util.List;
+import java.util.Set;
 
 public class ContactsService {
 
@@ -22,6 +23,18 @@ public class ContactsService {
 			}
 		}
 		return contactExist;
+	}
+	
+	public boolean checkContactValueIfExist(String personId, String newContactValue){
+		boolean exist = false;
+		List<Contact> contacts = getContacts(personId);
+		for(Contact c: contacts){
+			if(c.getContactValue().equals(newContactValue)){
+				exist = true;
+				break;
+			}
+		}
+		return exist;
 	}
 
 	//option2 contacts

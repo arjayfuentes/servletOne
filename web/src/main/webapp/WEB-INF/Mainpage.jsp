@@ -6,15 +6,15 @@
 
 <html>
 	<head>
-		<title>Main Page</title>
+		<h1><b>HOME PAGE</b></h1>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   	</head>
 	<body>
 		<div>
 			<div class="row">
 				<div class="column column-8" align="left">
-				  	<a href="${pageContext.request.contextPath}/PersonOptions">ADD PERSON</a>
+				  	<a href="${pageContext.request.contextPath}/PersonOptions?action=addPerson">ADD PERSON</a>
 				 	<a href="${pageContext.request.contextPath}/ManageRoles">MANAGE ROLES</a>
-				 	<a href="${pageContext.request.contextPath}/ManageContacts">MANAGE CONTACTS</a>
 					<br><br>
 					<form action="${pageContext.request.contextPath}/MainPage" method="get">
 					  <label>List Employees:</label><br>
@@ -43,7 +43,7 @@
 							<th>Options</th>
 						</tr>
 						 </thead>
-						<c:set var="persons" value='${persons}' />
+						<c:set var="persons" value="${persons}"/>
 						<c:forEach var="person" items="${persons}" >
 							<tr>
 								<td><c:out value="${person.id}"/></td>
@@ -98,11 +98,15 @@
 								</td>
 								<td>
 								<br>
-								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions?action=edit" method= "get">
+								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions?action=editPerson">
 									<input type = "hidden" name = "id" value = "${person.id}">
 									<input type = "submit" value = "Edit"/>
 								</form>
-								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions?action=delete" method = "post">
+								<form class = "buttons" action = "${pageContext.request.contextPath}/ManageContacts" method = "get">
+									<input type = "hidden" name = "id" value = "${person.id}">
+									<input type = "submit" value="Manage Contact"/> 
+								</form>
+								<form class = "buttons" action = "${pageContext.request.contextPath}/PersonOptions?action=deletePerson" method = "post">
 									<input type = "hidden" name = "id" value = "${person.id}">
 									<input type = "submit" onclick = "return confirm('WARNING!!! : Do you really want to delete employee record of \n\t\t\t\t ${person.firstName} ${person.middleName} ${person.lastName}?')" value = "Delete"/>
 								</form>

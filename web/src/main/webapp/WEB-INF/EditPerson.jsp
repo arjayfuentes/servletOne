@@ -16,11 +16,27 @@
 					</div>
 				</c:forEach>
 				<a href = "${pageContext.request.contextPath}/MainPage">Back to Main Page</a><p></p>
-				<form action="${pageContext.request.contextPath}/MainPage" method="post">
-					<input type="hidden" name="personId" value="${person.id}">
+				<form action="${pageContext.request.contextPath}/PersonOptions?action=editPerson" method="post">
+					<c:set var="person" scope="session" value="${person}"/>
+					<input type="hidden" name="id" value="${person.id}">
 					<fmt:formatDate pattern="MM/dd/yyy" value="${person.birthDate}" var="birthDate"/>
 					<fmt:formatDate pattern="MM/dd/yyy" value="${person.dateHired}" var="dateHired"/>
-					<c:set value="${person.firstName}" var="firstName"/>
+					<c:set var="firstName" scope="session" value="${person.firstName}"/>
+					<c:set var="middleName" scope="session" value="${person.middleName}"/>
+					<c:set var="lastName" scope="session" value="${person.lastName}"/>
+					<c:set var="suffix" scope="session" value="${person.suffix}"/>
+					<c:set var="title" scope="session" value="${person.title}"/>
+					<c:set var="gwa" scope="session" value="${person.gwa}"/>
+					<c:set var="employed" scope="session" value="${person.getEmployed()}"/>
+					<c:set var="roles" scope="session" value="${person.roles}"/>
+					<c:set var="houseNo" scope="session" value="${person.address.houseNo}"/>
+					<c:set var="street" scope="session" value="${person.address.street}"/>
+					<c:set var="barangay" scope="session" value="${person.address.barangay}"/>
+					<c:set var="city" scope="session" value="${person.address.city}"/>
+					<c:set var="zipCode" scope="session" value="${person.address.zipCode}"/>
+					<c:set var="roles" scope="session" value="${roles}"/>
+					<c:set var="personRoles" scope="session" value="${person.roles}"/>
+					<c:set var="contacts" scope="session" value="${person.contacts}"/>
 					
 					<div class="column column-8">
 						<fieldset style="padding:3%">
@@ -29,23 +45,23 @@
 								<div>
 									<tr>
 										<td><span class="required">*</span></div>First Name:</td>
-										<td><input type="text" name="firstName" required value="${person.firstName}" placeholder=""></td>
+										<td><input type="text" name="firstName" required value="${firstName}" ></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Middle Name:</td>
-										<td><input type="text" name="middleName" required value="${person.middleName}"></td>
+										<td><input type="text" name="middleName" required value="${middleName}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Last Name:</td>
-										<td><input type="text" name="lastName" required value="${person.lastName}"></td>
+										<td><input type="text" name="lastName" required value="${lastName}"></td>
 									</tr>
 									<tr>
 										<td>&nbsp;&nbsp;Suffix:</td>
-										<td><input type="text" name="suffix" value="${person.suffix}"></td>
+										<td><input type="text" name="suffix" value="${suffix}"></td>
 									</tr>
 									<tr>
 										<td>&nbsp;&nbsp;Title:</td>
-										<td><input type="text" name="title" value="${person.title}"></td>
+										<td><input type="text" name="title" value="${title}"></td>
 									</tr>
 								</div>
 							</table>
@@ -60,7 +76,7 @@
 								<div>
 									<tr>
 										<td><span class="required">*</span></div>GWA:</td>
-										<td><input type="text" name="gwa" required value="${person.gwa}"></td>
+										<td><input type="text" name="gwa" required value="${gwa}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Birthday</td>
@@ -69,8 +85,8 @@
 									<tr>
 										<td><span class="required">*</span>Employed:</td>
 										<td>
-											<input type="radio" name="employed" value="yes" ${person.getEmployed() ? 'checked' : ''}> Yes
-											<input type="radio" name="employed" value="no" ${person.getEmployed() ? '' : 'checked'}> Not Employed
+											<input type="radio" name="employed" value="yes" ${employed ? 'checked' : ''}> Yes
+											<input type="radio" name="employed" value="no" ${employed ? '' : 'checked'}> Not Employed
 										</td>
 									</tr>
 									<tr>
@@ -84,8 +100,6 @@
 									<tr>
 										<td>Roles:</td>
 										<td>
-										<c:set var="roles" value="${roles}"/>
-										<c:set var="personRoles" value="${person.roles}"/>
 										<c:forEach var="role" items="${roles}">
 											<c:if test="${personRoles.contains(role)}">
 												<input type="checkbox" name="roleId" value="${role.id}" checked="checked"/>${role.roleName}<br/>
@@ -110,79 +124,46 @@
 								<div>
 									<tr>
 										<td><span class="required">*</span></div>House No:</td>
-										<td><input type="text" name="houseNo" required value="${person.address.houseNo}"></td>
+										<td><input type="text" name="houseNo" required value="${houseNo}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Street:</td>
-										<td><input type="text" name="street" required value="${person.address.street}"></td>
+										<td><input type="text" name="street" required value="${street}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>Barangay:</td>
-										<td><input type="text" name="barangay" required value="${person.address.barangay}"></td>
+										<td><input type="text" name="barangay" required value="${barangay}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>City:</td>
-										<td><input type="text" name="city" required value="${person.address.city}"></td>
+										<td><input type="text" name="city" required value="${city}"></td>
 									</tr>
 									<tr>
 										<td><span class="required">*</span></div>ZipCode:</td>
-										<td><input type="text" name="zipCode" required value="${person.address.zipCode}"></td>
+										<td><input type="text" name="zipCode" required value="${zipCode}"></td>
 									</tr>
 								</div>
 							</table>
 						</fieldset>
 					</div>
 					<br>
-					<c:choose>
-					<c:when test = "${empty id}">
-						<div class="column column-8" align="center">
-							<fieldset style="padding:3%">
-								<legend>CONTACTS:</legend>
-								<table>
-								<tr>
-									<td>Mobile:</td>
-									<td><input type="number" name="mobile"></td>
-								</tr>
-								<tr>
-									<td>Landline:</td>
-									<td><input type="number" name="landline"></td>
-								</tr>
-								<tr>
-									<td>Email:</td>
-									<td><input type="email" name="email"></td>
-								</tr>
-							</table>
-							</fieldset>
-						</div>
-					</c:when>
-					<c:otherwise>
-					</c:otherwise>
-					</c:choose>
-				
 					<div align = "center">
-						<c:choose>
-							<c:when test = "${empty id}">
-								<input type = "submit" value = "Add" align = "center"/>
-							</c:when>
-							<c:otherwise>
-								<p></p>
-								<input type = "submit" value = "Update" align = "center"/>
-							</c:otherwise>
-						</c:choose>
+						<input type = "submit" value = "Update" align = "center"/>
 					</div>
-					
 				</form>
 			</div>
 			
 			<div class="column column-8" align="center">
-				<form action="${pageContext.request.contextPath}/MainPage" method="get">
+				<form action="${pageContext.request.contextPath}/MainPage">
 					 <input type="submit" value="cancel" align= "center"/>
 				</form>		
 			</div>
 		</div>
+		
 		<style>
 			.required{
 			color:red;
 		}
+		
 	</body>
 </html>

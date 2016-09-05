@@ -5,6 +5,7 @@ import org.hibernate.*;
 import com.exercise.servlet1.HibernateUtil;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.ConstraintViolationException;
 
 
 public class RoleDao {
@@ -116,7 +117,7 @@ public class RoleDao {
     }
 
     //option 3 done
-    public void deletePersonRole(String personId, long roleId) {
+    public void deletePersonRole(String personId, long roleId){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
         Set<Role> personRoles = null;

@@ -4,6 +4,7 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+  
   <servlet>
     <display-name>MainPage</display-name>
     <servlet-name>MainPage</servlet-name>
@@ -13,6 +14,7 @@
     <servlet-name>MainPage</servlet-name>
     <url-pattern>/MainPage/*</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <display-name>PersonOptions</display-name>
     <servlet-name>PersonOptions</servlet-name>
@@ -22,7 +24,8 @@
     <servlet-name>PersonOptions</servlet-name>
     <url-pattern>/PersonOptions/*</url-pattern>
   </servlet-mapping>
-   <servlet>
+  
+  <servlet>
     <display-name>ManageRoles</display-name>
     <servlet-name>ManageRoles</servlet-name>
     <servlet-class>com.exercise.servlet1.ManageRoles</servlet-class>
@@ -31,6 +34,7 @@
     <servlet-name>ManageRoles</servlet-name>
     <url-pattern>/ManageRoles/*</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <display-name>ManageContacts</display-name>
     <servlet-name>ManageContacts</servlet-name>
@@ -39,15 +43,6 @@
   <servlet-mapping>
     <servlet-name>ManageContacts</servlet-name>
     <url-pattern>/ManageContacts/*</url-pattern>
-  </servlet-mapping>
-   <servlet>
-    <display-name>ContactPerson</display-name>
-    <servlet-name>ContactPerson</servlet-name>
-    <servlet-class>com.exercise.servlet1.ContactPerson</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ContactPerson</servlet-name>
-    <url-pattern>/ContactPerson/*</url-pattern>
   </servlet-mapping>
   
 </web-app>

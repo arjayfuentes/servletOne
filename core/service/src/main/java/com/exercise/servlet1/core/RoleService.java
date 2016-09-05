@@ -2,6 +2,8 @@ package com.exercise.servlet1.core;
 
 import java.util.*;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 public class RoleService {
 
     Validation check = new Validation();
