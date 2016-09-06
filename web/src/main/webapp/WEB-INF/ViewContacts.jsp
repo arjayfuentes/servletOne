@@ -64,7 +64,7 @@
 		  		<tr>
 		  			<th>Contact ID</th>
 		  			<th>Contact Type</th>
-		  			<th>Contact ContactValue</th>
+		  			<th>Contact Value</th>
 		  		</tr>
 		  		<c:forEach var = "contact" items = "${person.contacts}">
 		  		<tr>

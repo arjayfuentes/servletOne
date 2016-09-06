@@ -83,8 +83,8 @@
 									<tr>
 										<td><span class="required">*</span>Employed:</td>
 										<td>
-											<input type="radio" name="employed" value="yes" ${employed ? 'checked' : ''}> Yes
-											<input type="radio" name="employed" value="no" ${employed ? '' : 'checked'}> Not Employed
+											<input type="radio" name="employed" value="true" ${employed ? 'checked' : ''}> Yes
+											<input type="radio" name="employed" value="false" ${employed ? '' : 'checked'}> Not Employed
 										</td>
 									</tr>
 									<tr>
@@ -92,7 +92,6 @@
 										<td>
 											<fmt:formatDate value="${ojbect.date}" pattern="dd/MM/yyyy" />
 											<input type="text" name="dateHired" required value="${dateHired}" placeholder="12/30/1900">
-											<span class="required">*(if employed)</span>
 										</td>
 									</tr>
 									<tr>
@@ -107,7 +106,6 @@
 												<input type="checkbox" name="roleId" value="${role.id}"/>${role.roleName}<br/>
 											</c:if>
 										</c:forEach>
-										<span class="required">*(if employed)</span>
 										</td>
 									</tr>
 								</div>

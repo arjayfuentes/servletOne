@@ -18,8 +18,7 @@
         <property name="net.sf.ehcache.configurationResourceName">${db.ehcache.configurationResourceName}</property>
         <property name="hibernate.cache.region.factory_class">${db.region.factory_class}</property>
         <property name="hibernate.cache.use_query_cache">${db.use_query_cache}</property>
-	   
-
+	  
         <mapping class="com.exercise.servlet1.core.Person"/>
     	<mapping class="com.exercise.servlet1.core.Address"/>
     	<mapping class="com.exercise.servlet1.core.Contact"/>

@@ -15,8 +15,6 @@ public class ManageContacts extends HttpServlet{
 	private ContactsService contactsService = new ContactsService();
 	private Validation check = new Validation();
 	
-	private static final long serialVersionUID = 1L;
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String personId = request.getParameter("id");
 		Person person = personService.getPerson(personId);
@@ -33,6 +31,8 @@ public class ManageContacts extends HttpServlet{
 		Person person = personService.getPerson(personId);
 		if(action.equals("updateContact")){
 			  String contactId = request.getParameter("contactId");
+			  Contact contact = contactsService.getContact(Long.valueOf(contactId));
+			  ContactType contactType = contact.getContactType();
 			  String newContactValue= request.getParameter("newContactValue");
 			  if(newContactValue.isEmpty() || newContactValue.equals(null) || newContactValue.equals("") || newContactValue.length()==0){
 					String updateError = "Invalid. Empty input";
@@ -43,10 +43,27 @@ public class ManageContacts extends HttpServlet{
 					request.setAttribute("updateError", updateError);
 				}
 				else{
-					contactsService.updateContact(Long.valueOf(contactId),newContactValue);
-					
-				} 
+					String error = null;
+					switch(contactType){
+					  	case LANDLINE:
+					  			error = check.checkNumberContact(newContactValue, 7);
+					  			break;
+					  	case MOBILE:
+					  			error = check.checkNumberContact(newContactValue,11);
+					  			break;
+					  	default:
+					  			error = check.checkEmailContact(newContactValue);
+					  			break;
+					  }
+					  if(!error.equals("No errors")){
+						 request.setAttribute("updateError", error);
+					  }
+					  else{
+						  contactsService.updateContact(Long.valueOf(contactId),newContactValue);
+			 		 }
+				}	
 		}
+
 		else if(action.equals("addContact")){
 			  String typeNewContact = request.getParameter("typeNewContact");
 			  String valueNewContact = request.getParameter("valueNewContact").trim();
@@ -66,7 +83,10 @@ public class ManageContacts extends HttpServlet{
 			  			error = check.checkEmailContact(valueNewContact);
 			  			break;
 			  }
-			  if(!error.equals("No errors")){
+			  if(contactsService.checkContactValueIfExist(personId,valueNewContact)==true){
+					error = " Contact already exist. Try another contact value";
+			  }
+			  else if(!error.equals("No errors")){
 				  request.setAttribute("addError", error);
 			  }
 			  else{
@@ -74,7 +94,7 @@ public class ManageContacts extends HttpServlet{
 				  contactsService.addContact(personId, newContact);
 			  }
 		 }
-		else if(action.equals("deleteContact")){
+		 else if(action.equals("deleteContact")){
 			  String contactId = request.getParameter("contactId");
 			  contactsService.deleteContact(Long.valueOf(contactId)); 
 		 }
@@ -83,20 +103,6 @@ public class ManageContacts extends HttpServlet{
 		 request.setAttribute("person", person);
 		 request.setAttribute("id", personId);
 		 request.getRequestDispatcher("/WEB-INF/ViewContacts.jsp").forward(request, response);
-	  }
-
-
-	public ManageContacts(){
-		System.out.println("ManageContacts constructor called");
-	}
-	
-	public void init(ServletConfig config) throws ServletException{
-		System.out.println("ManageContacts init() method called");
-	}
-	
-	public void destroy(){
-		System.out.println("ManageContacts destroy() method called");
-	}
-	
+	 }
 	
 }

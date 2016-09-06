@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainPage extends HttpServlet {
-
-	
-	private static final long serialVersionUID = 1L;
 	
 	PersonService personService = new PersonService();
     RoleService roleService = new RoleService();
@@ -59,6 +56,9 @@ public class MainPage extends HttpServlet {
             	System.out.println("Action = List Person Sort by id. Default");
                 persons= personService.getPersons("id");
             }
+            for(Person p: persons){
+                System.out.print(p.getEmployed());
+            }
             
 	        persons.forEach(System.out::print);
 	        response.setContentType("text/html");
@@ -68,14 +68,6 @@ public class MainPage extends HttpServlet {
 	    }catch(Exception ex){
             ex.printStackTrace();
         }
-    }
-      
-    public void init(ServletConfig config) throws ServletException {
-        System.out.println("MainPage init() method called");
-    }
-
-    public void destroy() {
-        System.out.println("MainPage destroy() method called");
     }
 
 }

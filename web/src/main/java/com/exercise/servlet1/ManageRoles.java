@@ -19,18 +19,6 @@ public class ManageRoles extends HttpServlet{
 	private PersonService personService = new PersonService();
 	private Validation check = new Validation();
 	
-	public ManageRoles(){
-		System.out.println("ListRoles constructor called");
-	}
-	
-	public void init(ServletConfig config) throws ServletException{
-		System.out.println("ListRoles init() method called");
-	}
-	
-	public void destroy(){
-		System.out.println("ListRoles destroy() method called");
-	}
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		List<Role> roles = roleService.getRoles();
 		request.setAttribute("roles", roles);

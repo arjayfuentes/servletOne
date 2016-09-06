@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 public class PersonOptions extends HttpServlet{
-
-  private static final long serialVersionUID = 1L;
-
+	
   PersonService personService = new PersonService();
   RoleService roleService = new RoleService();
   

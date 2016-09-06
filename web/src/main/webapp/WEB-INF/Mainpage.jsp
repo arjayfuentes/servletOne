@@ -37,6 +37,7 @@
 							<th>GWA</th>
               				<th>Birthday</th>
 							<th>Address</th>
+							<th>Employed?</th>
 							<th>Date Hired</th>
 							<th>Person Roles</th>
 							<th>Contacts</th>
@@ -65,8 +66,8 @@
 								</td>
 								<td>
 									<c:choose>
-									    <c:when test="${person.employed="true"}">
-												<fmt:formatDate pattern="MM-dd-yyyy" value="${person.dateHired}" /></br><br/>
+									    <c:when test="${person.getEmployed()==true}">
+											Employed
 									    </c:when>
 									    <c:otherwise>
 									        Not employed
@@ -74,16 +75,12 @@
 									</c:choose>
 								</td>
 								<td>
-									<c:choose>
-									    <c:when test="${person.employed="true"}">
-												<c:forEach var="role" items="${person.roles}" >
-													<c:out value="${role.roleName}"/> </br>
-												</c:forEach>
-									    </c:when>
-									    <c:otherwise>
-									        Not employed
-									    </c:otherwise>
-									</c:choose>
+									<fmt:formatDate pattern="MM-dd-yyyy" value="${person.dateHired}" /></br>
+								</td>
+								<td>
+									<c:forEach var="role" items="${person.roles}" >
+											<c:out value="${role.roleName}"/> </br>
+									</c:forEach>
 								</td>
 								<td>
 									<c:set var="contacts" value="${person.contacts}" />
